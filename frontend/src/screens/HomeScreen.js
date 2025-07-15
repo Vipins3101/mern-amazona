@@ -7,7 +7,7 @@ function HomeScreen() {
       {' '}
       <h1>Featured Products</h1>
       <div className="products">
-        {data.product.map((product) => (
+        {data.products.map((product) => (
           <div className="product" key={product.slug}>
             <Link to={`/product/${product.slug}`}>
               <img src={product.image} alt={product.name} />
