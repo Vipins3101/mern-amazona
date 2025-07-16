@@ -13,11 +13,19 @@ body {
 main {
   flex: 1;
 }
+.btn-primary {
+  background-color: #f8bd19;
+  border: none;
+  color: black;
+}
 
 .products {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+.rating span {
+  color: #de7921;
 }
 
 .product {
