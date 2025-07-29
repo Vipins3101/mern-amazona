@@ -86,3 +86,4 @@
 21. Seed Sample Users
     1. create user model
     2. seed sample users
+    3. npm i bcryptjs
