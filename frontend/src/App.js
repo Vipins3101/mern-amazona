@@ -17,6 +17,7 @@ import SignupScreen from './screens/SignupScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreens';
 import OrderScreen from './screens/OrderScreen';
+import OrderHistoryScreen from './screens/OrderHistoryScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -33,41 +34,43 @@ function App() {
     <div className="d-flex flex-column site-container">
       <ToastContainer position="bottom-center" limit={1} />
       <header className="App-header">
-        <Navbar bg="dark" variant="dark">
+        <Navbar bg="dark" variant="dark" expand="lg">
           <Container>
             <Navbar.Brand as={Link} to="/">
               amazona
             </Navbar.Brand>
-
-            <Nav className="me-auto">
-              <Nav.Link as={Link} to="/cart">
-                Cart
-                {cart.cartItems.length > 0 && (
-                  <Badge pill bg="danger">
-                    {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                  </Badge>
-                )}
-              </Nav.Link>
-
-              {userInfo ? (
-                <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
-                  <NavDropdown.Item as={Link} to="/profile">
-                    User Profile
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/orderhistory">
-                    Order History
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item onClick={signoutHandler}>
-                    Sign Out
-                  </NavDropdown.Item>
-                </NavDropdown>
-              ) : (
-                <Nav.Link as={Link} to="/signin">
-                  Sign In
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="me-auto w-100 justify-content">
+                <Nav.Link as={Link} to="/cart">
+                  Cart
+                  {cart.cartItems.length > 0 && (
+                    <Badge pill bg="danger">
+                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                    </Badge>
+                  )}
                 </Nav.Link>
-              )}
-            </Nav>
+
+                {userInfo ? (
+                  <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                    <NavDropdown.Item as={Link} to="/profile">
+                      User Profile
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/orderhistory">
+                      Order History
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={signoutHandler}>
+                      Sign Out
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                ) : (
+                  <Nav.Link as={Link} to="/signin">
+                    Sign In
+                  </Nav.Link>
+                )}
+              </Nav>
+            </Navbar.Collapse>
           </Container>
         </Navbar>
       </header>
@@ -82,6 +85,7 @@ function App() {
             <Route path="/placeorder" element={<PlaceOrderScreen />} />
             <Route path="/shipping" element={<ShippingAddressScreen />} />
             <Route path="/order/:id" element={<OrderScreen />} />
+            <Route path="/orderhistory" element={<OrderHistoryScreen />} />
             <Route path="/payment" element={<PaymentMethodScreen />} />
             <Route path="/" element={<HomeScreen />} />
           </Routes>
