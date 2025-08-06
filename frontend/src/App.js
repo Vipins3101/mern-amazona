@@ -19,11 +19,11 @@ import PlaceOrderScreen from './screens/PlaceOrderScreens';
 import OrderScreen from './screens/OrderScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
-import { LinkContainer } from 'react-router-bootstrap';
 import { Button } from 'react-bootstrap';
 import { getError } from './screens/utils';
 import axios from 'axios';
 import SearchBox from './Components/SearchBox';
+import SearchScreen from './screens/SearchScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -146,6 +146,7 @@ function App() {
           <Routes>
             <Route path="/product/:slug" element={<ProductScreen />} />
             <Route path="/cart" element={<CartScreen />} />
+            <Route path="/search" element={<SearchScreen />} />
             <Route path="/signin" element={<SigninScreen />} />
             <Route path="/signup" element={<SignupScreen />} />
             <Route path="/profile" element={<ProfileScreen />} />
