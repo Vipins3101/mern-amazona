@@ -24,6 +24,10 @@ import { getError } from './screens/utils';
 import axios from 'axios';
 import SearchBox from './Components/SearchBox';
 import SearchScreen from './screens/SearchScreen';
+import ProtectedRoute from './Components/ProtectedRoute';
+import DashboardScreen from './screens/DashboardScreen';
+import AdminRoute from './Components/AdminRoute';
+import { LinkContainer } from 'react-router-bootstrap';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -44,14 +48,12 @@ function App() {
     const fetchCategories = async () => {
       try {
         const { data } = await axios.get('/api/products/categories');
-        console.log('Fetched Categories:', data); // 👈 Add this
-
         setCategories(data);
       } catch (err) {
         toast.error(getError(err));
       }
     };
-    fetchCategories(); // ✅ Call the function here
+    fetchCategories();
   }, []);
 
   return (
@@ -106,16 +108,34 @@ function App() {
                     Sign In
                   </Nav.Link>
                 )}
+
+                {userInfo && userInfo.isAdmin && (
+                  <NavDropdown title="Admin" id="admin-nav-dropdown">
+                    <LinkContainer to="/admin/dashboard">
+                      <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/productlist">
+                      <NavDropdown.Item>Products</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/orderlist">
+                      <NavDropdown.Item>Orders</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/admin/userlist">
+                      <NavDropdown.Item>Users</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
+                )}
               </Nav>
             </Navbar.Collapse>
           </Container>
         </Navbar>
       </header>
+
       <div
         className={
           sidebarIsOpen
             ? 'active-nav side-navbar d-flex justify-content-between flex-wrap flex-column'
-            : ' side-navbar d-flex justify-content-between flex-wrap flex-column'
+            : 'side-navbar d-flex justify-content-between flex-wrap flex-column'
         }
       >
         <Nav className="flex-column text-white w-100 p-2">
@@ -123,13 +143,6 @@ function App() {
             <strong>Categories</strong>
           </Nav.Item>
           {categories.map((category) => (
-            // <LinkContainer
-            //   key={category}
-            //   to={`/search?category=${category}`}
-            //   onClick={() => setSidebarIsOpen(false)}
-            // >
-            //   <Nav.Link>{category}</Nav.Link>
-            // </LinkContainer>
             <Nav.Link
               key={category}
               as={Link}
@@ -141,27 +154,59 @@ function App() {
           ))}
         </Nav>
       </div>
+
       <main>
         <Container className="mt-3">
           <Routes>
+            <Route path="/" element={<HomeScreen />} />
             <Route path="/product/:slug" element={<ProductScreen />} />
             <Route path="/cart" element={<CartScreen />} />
             <Route path="/search" element={<SearchScreen />} />
             <Route path="/signin" element={<SigninScreen />} />
             <Route path="/signup" element={<SignupScreen />} />
-            <Route path="/profile" element={<ProfileScreen />} />
-            <Route path="/placeorder" element={<PlaceOrderScreen />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfileScreen />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/orderhistory"
+              element={
+                <ProtectedRoute>
+                  <OrderHistoryScreen />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/order/:id"
+              element={
+                <ProtectedRoute>
+                  <OrderScreen />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/shipping" element={<ShippingAddressScreen />} />
-            <Route path="/order/:id" element={<OrderScreen />} />
-            <Route path="/orderhistory" element={<OrderHistoryScreen />} />
             <Route path="/payment" element={<PaymentMethodScreen />} />
-            <Route path="/" element={<HomeScreen />} />
+            <Route path="/placeorder" element={<PlaceOrderScreen />} />
+
+            {/* Admin Routes */}
+            <Route
+              path="/admin/dashboard"
+              element={
+                <AdminRoute>
+                  <DashboardScreen />
+                </AdminRoute>
+              }
+            />
           </Routes>
         </Container>
       </main>
 
       <footer>
-        <div className="text-center"> All Rights Reserved</div>
+        <div className="text-center">All Rights Reserved</div>
       </footer>
     </div>
   );
