@@ -28,6 +28,7 @@ import ProtectedRoute from './Components/ProtectedRoute';
 import DashboardScreen from './screens/DashboardScreen';
 import AdminRoute from './Components/AdminRoute';
 import { LinkContainer } from 'react-router-bootstrap';
+import ProductListScreen from './screens/ProductListScreen';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -111,18 +112,18 @@ function App() {
 
                 {userInfo && userInfo.isAdmin && (
                   <NavDropdown title="Admin" id="admin-nav-dropdown">
-                    <LinkContainer to="/admin/dashboard">
-                      <NavDropdown.Item>Dashboard</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to="/admin/productlist">
-                      <NavDropdown.Item>Products</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to="/admin/orderlist">
-                      <NavDropdown.Item>Orders</NavDropdown.Item>
-                    </LinkContainer>
-                    <LinkContainer to="/admin/userlist">
-                      <NavDropdown.Item>Users</NavDropdown.Item>
-                    </LinkContainer>
+                    <NavDropdown.Item as={Link} to="/admin/dashboard">
+                      Dashboard
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/admin/products">
+                      Products
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/admin/orders">
+                      Orders
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/admin/users">
+                      Users
+                    </NavDropdown.Item>
                   </NavDropdown>
                 )}
               </Nav>
@@ -201,6 +202,14 @@ function App() {
                 </AdminRoute>
               }
             />
+            <Route
+              path="/admin/products"
+              element={
+                <AdminRoute>
+                  <ProductListScreen />
+                </AdminRoute>
+              }
+            ></Route>
           </Routes>
         </Container>
       </main>
