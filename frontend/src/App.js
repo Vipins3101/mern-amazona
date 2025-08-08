@@ -27,7 +27,6 @@ import SearchScreen from './screens/SearchScreen';
 import ProtectedRoute from './Components/ProtectedRoute';
 import DashboardScreen from './screens/DashboardScreen';
 import AdminRoute from './Components/AdminRoute';
-import { LinkContainer } from 'react-router-bootstrap';
 import ProductListScreen from './screens/ProductListScreen';
 
 function App() {
