@@ -6,6 +6,7 @@ import seedRouter from './routes/seedRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
+import uploadRouter from './routes/uploadRoutes.js';
 
 dotenv.config();
 
@@ -26,16 +27,10 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/api/keys/paypal', (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
 });
-
-console.log('Mounting /api/seed');
+app.use('/api/upload', uploadRouter);
 app.use('/api/seed', seedRouter);
-
-console.log('Mounting /api/products');
 app.use('/api/products', productRouter);
-
-console.log('Mounting /api/users');
 app.use('/api/users', userRouter);
-
 console.log('Mounting /api/orders');
 app.use('/api/orders', orderRouter);
 
